@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Text, TouchableOpacity, View, StyleSheet, Dimensions, Image } from 'react-native';
 import { SimplePokemon } from '../interfaces/pokemonInterfaces';
 import { FadeInImage } from './FadeInImage';
 import ImageColors from 'react-native-image-colors';
+import { useNavigation } from '@react-navigation/native';
+import { capitalizeName } from '../helpers/capitalizeName';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -13,20 +15,26 @@ interface Props {
 export const PokemonCard = ({ pokemon }: Props) => {
 
     const [bgColor, setBgColor] = useState('grey');
+    const isMounded = useRef(true);
+    const navigation = useNavigation()
 
     useEffect(() => {
         ImageColors.getColors(pokemon.picture, { fallback: 'grey', key: pokemon.picture })
-            .then(colors => {
+            .then((colors: any) => {
+                if (!isMounded.current) return;
                 (colors.platform === 'android')
-                    && setBgColor(colors.dominant || 'grey')
-                // : setBgColor(colors.background || 'grey')
-            })
+                    ? setBgColor(colors.dominant || 'grey')
+                    : setBgColor(colors.background || 'grey')
+            });
+
+        return () => isMounded.current = false;
     }, []);
 
 
     return (
         <TouchableOpacity
             activeOpacity={0.9}
+            onPress={() => navigation.navigate('PokemonScreen', { simplePokemon: pokemon, color: bgColor })}
         >
             <View
                 style={{
@@ -38,7 +46,7 @@ export const PokemonCard = ({ pokemon }: Props) => {
                 <View>
                     <Text style={styles.pokemonName}>
                         {/* Name capitalized */}
-                        {`${pokemon.name.charAt(0).toUpperCase()}${pokemon.name.slice(1)}`}
+                        {capitalizeName(pokemon.name)}
                         {'\n#' + pokemon.id}
                     </Text>
                 </View>
@@ -82,7 +90,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         top: 20,
         left: 10,
-        overflow: 'hidden',
+        textShadowColor: '#000',
+        textShadowOffset: {
+            width: 1,
+            height: 1
+        },
+        textShadowRadius: 1
     },
     pokeballContainer: {
         width: 100,
