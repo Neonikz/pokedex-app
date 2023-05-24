@@ -4,11 +4,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { styles } from '../theme/appTheme';
 import { usePokemonPaginated } from '../hooks/usePokemonPaginated';
 import { PokemonCard } from '../components/PokemonCard';
+import { FloatingButton } from '../components/FloatingButton';
+
 
 export const HomeScreen = () => {
 
     const { top } = useSafeAreaInsets();
     const { simplePokemonList, loadPokemons } = usePokemonPaginated();
+
 
     return (
         <>
@@ -52,7 +55,7 @@ export const HomeScreen = () => {
                     )}
                 />
             </View>
-
+            <FloatingButton icon='search-outline' navigateTo='SearchScreen' />
         </>
     );
 };
