@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import { StyleSheet, View, TextInput, StyleProp,ViewStyle } from 'react-native';
+import { StyleSheet, View, TextInput, StyleProp,ViewStyle,Keyboard, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDebouncedValue } from '../hooks/useDebouncedValue';
 
@@ -21,8 +21,8 @@ export const SearchInput = ({style,onDebounce}:Props) => {
 
   return (
     <View style={{
-        ...styles.container,
-        ...style as any,
+      ...styles.container,
+      ...style as any,
     }}>
       <View style={styles.textBackground}>
         <TextInput

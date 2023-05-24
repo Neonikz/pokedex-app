@@ -7,6 +7,7 @@ import {Loader} from '../components/Loader';
 import {styles} from '../theme/appTheme';
 import {PokemonCard} from '../components/PokemonCard';
 import { SimplePokemon } from '../interfaces/pokemonInterfaces';
+import { FloatingButton } from '../components/FloatingButton';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -87,6 +88,7 @@ export const SearchScreen = () => {
           />
         </View> 
       }
+        <FloatingButton icon="list-outline" navigateTo='HomeScreen' style={{right:0}}/>
     </View>
   );
 };
